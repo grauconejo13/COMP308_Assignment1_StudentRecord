@@ -1,5 +1,5 @@
 const Student = require('../models/Student');
-const generateToken = require('../utils/generateToken');
+//const generateToken = require('../utils/generateToken');
 
 // Register a new student
 exports.registerStudent = async(req, res) => {
