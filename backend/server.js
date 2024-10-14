@@ -27,7 +27,6 @@ if (!MONGO_URI) {
 
 connectDB();
 
-
 app.use(express.json());
 
 

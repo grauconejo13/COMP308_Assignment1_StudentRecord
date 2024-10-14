@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-d
 import axios from 'axios';
 
 // Components
-import AdminDashboard from './components/AdminDashboard';
-import StudentDashboard from './components/StudentDashboard';
-import LoginPage from './components/LoginPage';
-import RegisterPage from './components/RegisterPage';
+import AdminDashboard from './pages/AdminDashboard';
+import StudentDashboard from './pages/StudentDashboard';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
 // Utils
+import auth from './utils/auth';  // Correct path
 import { setAuthToken, getUserRole } from './utils/auth';
 
 // Main App Component
