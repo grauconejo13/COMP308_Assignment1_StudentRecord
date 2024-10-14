@@ -1,0 +1,72 @@
+/* src/pages/RegisterPage.css or src/pages/LoginPage.css */
+.page-container {
+  display: flex;
+  justify-content: center;  /* Centers horizontally */
+  align-items: center;      /* Centers vertically */
+  height: 100vh;            /* Full viewport height */
+  background-color: #f5f5f5; /* Light background for a clean look */
+}
+
+.form-container {
+  width: 40%;               /* Form width */
+  background-color: white;   /* White background for the form */
+  padding: 20px;             /* Padding inside the form */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Light shadow for a subtle elevation */
+  border-radius: 8px;        /* Rounded corners */
+  margin: 0 auto;            /* Center the form horizontally */
+}
+
+.form-container h1,h2 {
+  text-align: center;        /* Center the form title */
+  margin-bottom: 20px;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.form-container button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-container button:hover {
+  background-color: #0056b3;
+}
+
+.form-container p {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.form-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.form-container p a:hover {
+  text-decoration: underline;
+}
+
+.error-message {
+  color: red;
+  text-align: center;
+  margin-bottom: 15px;
+}

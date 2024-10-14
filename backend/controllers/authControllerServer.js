@@ -88,22 +88,3 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-
-
-
-/*const Student = require('../models/Student');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-
-// Student login
-exports.login = async (req, res) => {
-  const { studentNumber, password } = req.body;
-  const student = await Student.findOne({ studentNumber });
-  if (!student) return res.status(400).json({ error: 'Invalid credentials' });
-  
-  const validPassword = await bcrypt.compare(password, student.password);
-  if (!validPassword) return res.status(400).json({ error: 'Invalid credentials' });
-  
-  const token = jwt.sign({ id: student._id }, process.env.JWT_SECRET);
-  res.cookie('token', token, { httpOnly: true }).json({ success: true });
-};*/
