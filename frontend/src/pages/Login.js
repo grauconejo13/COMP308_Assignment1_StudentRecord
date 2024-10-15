@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';  // Import Link
 import { login } from '../services/api';  // Assuming this is your login function
+
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ setIsAuthenticated, setLoggedInUser }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -18,11 +19,34 @@ const Login = () => {
         password,
       });
 
-      // Save token to localStorage
+      console.log('API Response:', response);  // Log the response for debugging
+
+         // Ensure the response contains the user object
+      if (!response.data || !response.data.token) {
+        throw new Error('No token received from the server');
+      }
+
+      // Decode the token and log the result for debugging
+      const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
+      console.log('Decoded Token:', decodedToken);  // Log the decoded token
+      const decodedUsername = decodedToken.user?.username;
+
+            // Ensure the user object and username exist in the decoded token
+      if (!decodedToken.user || !decodedUsername) {
+        throw new Error('Username is missing in the token');
+      }
+
+      // Save token to localStorage/ username
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('username', decodedUsername); // Save username
+
+      // Update state in the parent component to trigger header re-render
+      setIsAuthenticated(true);  // Ensure this triggers the UI to update immediately
+      setLoggedInUser(decodedUsername);
+
 
       // Redirect based on user type
-      const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
+      JSON.parse(atob(response.data.token.split('.')[1]));
       if (decodedToken.user.userType === 'student') {
         history.push('/student-dashboard');
       } else {

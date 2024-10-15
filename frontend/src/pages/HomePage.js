@@ -1,27 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const HomePage = () => {
+const HomePage = ({ isAuthenticated, role }) => {
   return (
     <div style={styles.container}>
       <h1>Welcome to the Student & Course Management System</h1>
 
       <p>This system allows students to manage their course enrollments and view details about their academic progress. Admins can manage student records and course information.</p>
 
-      <div style={styles.linksContainer}>
+       {!isAuthenticated ? (
         <Link to="/login" style={styles.link}>
           <button style={styles.button}>Login</button>
         </Link>
-
+      ) : role === 'student' ? (
         <Link to="/student-dashboard" style={styles.link}>
-          <button style={styles.button}>Student Dashboard</button>
+          <button style={styles.button}>Go to Student Dashboard</button>
         </Link>
-
+      ) : (
         <Link to="/admin-dashboard" style={styles.link}>
-          <button style={styles.button}>Admin Dashboard</button>
+          <button style={styles.button}>Go to Admin Dashboard</button>
         </Link>
-      </div>
-    </div>
+      )}
+    </div>     
   );
 };
 
@@ -54,6 +54,7 @@ const styles = {
     color: 'white',
     border: 'none',
   },
+     
 };
 
 export default HomePage;

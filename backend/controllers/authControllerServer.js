@@ -38,14 +38,17 @@ exports.registerUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        username: user.username,
         userType: user.userType,
       },
     };
 
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    // Send the token back to the client
-    res.status(201).json({ token });
+    res.status(201).json({ 
+      token, 
+      user: { username: user.username, userType: user.userType } 
+    });
 
   } catch (error) {
     console.error("Error during registration:", error);
@@ -76,14 +79,23 @@ exports.loginUser = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        username: user.username, // Include username in JWT
         userType: user.userType,
       },
     };
 
-    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    // Send the token back to the client
-    res.json({ token });
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' },
+      (err, token) => {
+        if (err) throw err;
+        res.status(200).json({ 
+          token, 
+          user: { username: user.username, userType: user.userType } 
+        });
+      }
+    );
 
   } catch (error) {
     console.error("Error during login:", error);

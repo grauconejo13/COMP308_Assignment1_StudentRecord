@@ -11,14 +11,18 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');  // Import compression middleware
 const connectDB = require('./config/database');  // Import the database connection
+connectDB();
 
 const adminRoutesServer = require('./routes/adminRoutesServer');
 const studentRoutesServer = require('./routes/studentRoutesServer');
 const courseRoutesServer = require('./routes/courseRoutesServer');
-const authRoutesServer = require('./routes/authRoutesServer');
+const authRoutesServer = require('./routes/authRoutesServer'); 
 
 const app = express();
-     
+
+// Your routes and other middlewares
+app.use('/api/admin', adminRoutesServer);
+
 // Get MongoDB URI from environment variables
 const MONGO_URI = process.env.MONGO_URI;
 
@@ -26,8 +30,6 @@ if (!MONGO_URI) {
   console.error('MongoDB URI is not defined in environment variables.');
   process.exit(1);
 }
-
-connectDB();
 
 const http = require('http');
 
@@ -38,7 +40,6 @@ app.use(express.json({ limit: '40mb' }));
 app.use(express.urlencoded({ limit: '40mb', extended: true }));
 
 app.use(cookieParser());
-
 
 app.use(cors({
   origin: 'http://localhost:3000',  // Set the correct frontend URL

@@ -11,6 +11,21 @@ export const setAuthToken = (token) => {
   }
 };
 
+// Function to decode JWT and return user details
+export const getUserFromToken = () => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    try {
+      const decodedToken = jwtDecode(token);
+      return decodedToken.user;  // Assuming the token has user details
+    } catch (error) {
+      console.error('Failed to decode token:', error);
+      return null;
+    }
+  }
+  return null;
+};
+
 // Get the user role from the JWT token
 export const getUserRole = () => {
   const token = localStorage.getItem('token');
