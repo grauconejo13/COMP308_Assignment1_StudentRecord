@@ -75,10 +75,10 @@ exports.deleteCourse = async (req, res) => {
 exports.getAllCourses = async (req, res) => {
   try {
     const courses = await Course.find();
-    res.json(courses);
+     res.status(200).json({ data: courses });  // Send the courses as the response
   } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: 'Server Error' });
+     console.error("Error fetching courses:", error);
+    res.status(500).json({ error: "Server error while fetching courses" });
   }
 };
 

@@ -12,93 +12,93 @@ const RegisterPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const history = useHistory();
 
-  const handleRegister = async(e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
 
+       // Clear all cookies before making the request
+  document.cookie.split(";").forEach((cookie) => {
+    document.cookie = cookie.replace(/^ +/, "")
+                           .replace(/=.*/, `=;expires=${new Date().toUTCString()};path=/`);
+  });
 
     if (password !== confirmPassword) {
       setErrorMessage('Passwords do not match');
       return;
     }
-    // Handle registration logic here
+
+    // Create FormData instance
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('userType', 'student');  // Assuming default userType is student
+
     try {
-      // Send registration data to backend
-      const response = await axios.post('/api/auth/register', {
-        username,
-        email,
-        password,
-        userType: 'student',  // or 'admin', depending on your setup
+      // Axios request to register the user
+      const response = await axios.post('http://localhost:5000/api/auth/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',  // Important for multipart requests
+        },
+         withCredentials: false,  // Disable cookies to avoid oversized headers
       });
 
-      // Save the JWT token in localStorage
-      localStorage.setItem('token', response.data.token);
+      const token = response.data.token;
+      if (!token) {
+        throw new Error('No token received from the server.');
+      }
 
-      // Decode the token to check the userType (optional)
-      const decodedToken = JSON.parse(atob(response.data.token.split('.')[1]));
+      localStorage.setItem('token', token);
+      const decodedToken = JSON.parse(atob(token.split('.')[1]));
 
-      // Redirect based on userType (student or admin)
       if (decodedToken.user.userType === 'student') {
-        history.push('/student-dashboard');  // Redirect to student dashboard
+        history.push('/student-dashboard');
       } else if (decodedToken.user.userType === 'admin') {
-        history.push('/admin-dashboard');  // Redirect to admin dashboard
+        history.push('/admin-dashboard');
       }
 
     } catch (error) {
+      console.error("Error during registration:", error);
       setErrorMessage('Registration failed, please try again.');
     }
   };
 
   return (
     <div className="page-container">
-    <div className="form-container">
-      <h2>Register</h2>
-      <form onSubmit={handleRegister}>
-        <div>
-          <label>Username:</label>
+      <div className="form-container">
+        <h2>Register</h2>
+        <form onSubmit={handleRegister}>
           <input
             type="text"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          <label>Email:</label>
           <input
             type="email"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          <label>Password:</label>
           <input
             type="password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </div>
-
-        <div>
-          <label>Confirm Password:</label>
           <input
             type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </div>
-
-        {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-
-        <button type="submit">Register</button>
-      </form>
-
-      {/* Add a link to the login page */}
+          {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+          <button type="submit">Register</button>
+        </form>
+         {/* Add a link to the login page */}
       <p>Already have an account? <Link to="/login">Login here</Link></p>
       </div>
     </div>

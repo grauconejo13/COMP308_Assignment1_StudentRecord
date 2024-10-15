@@ -1,7 +1,7 @@
 const Student = require('../models/Student');
 const Course = require('../models/Course');
 const bcrypt = require('bcryptjs');
-//const generateToken = require('../utils/generateToken');
+const generateToken = require('../utils/generateToken');
 
 //--------------------------------------------------------------------
 // @desc    Add a new student

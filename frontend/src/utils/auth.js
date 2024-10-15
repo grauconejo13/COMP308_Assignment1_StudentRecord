@@ -15,8 +15,12 @@ export const setAuthToken = (token) => {
 export const getUserRole = () => {
   const token = localStorage.getItem('token');
   if (token) {
-    const decoded = jwtDecode(token);  // Corrected function call
-    return decoded.role;  // Return the role from the token payload
+    const decoded = jwtDecode(token);
+    return decoded.role;  // The function returns here if token exists, so no further code is needed.
   }
+
+  // If no token, return null
   return null;
 };
+
+

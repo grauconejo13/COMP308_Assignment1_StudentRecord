@@ -11,7 +11,7 @@ const LoginPage = () => {
       <h1>Welcome to Student Management System</h1>
       <p>Please log in to continue</p>
       <Login />  {/* Reusing the Login component */}
-      <p>Don't have an account? <Link to="/register">Register here</Link></p>*{/* Add a link to the login page */}
+      <p>Don't have an account? <Link to="/register">Register here</Link></p>{/* Add a link to the login page */}
       </div>
       </div>
   );

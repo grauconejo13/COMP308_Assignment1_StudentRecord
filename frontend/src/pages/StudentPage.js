@@ -13,7 +13,7 @@ const StudentPage = () => {
   useEffect(() => {
     fetchCourses();
     fetchEnrolledCourses();
-  }, []);
+  }, []);a
 
   const fetchCourses = async () => {
     try {
